@@ -24,6 +24,12 @@ type Name struct {
 Name registrations are identified by the presence in the store of Name object.
 The name is indexed in the store as follows:
 
-- Name: `Name + Id -> amino(name)`
+- Name: `"Name-value-" + Name -> amino(name)`
 
 Id is a monotonously increasing counter, incremented by 1 every time a new `Name` is insereted in the store.
+
+
+## Id counter
+Counter for name Id's is indexed in the store as follows:
+
+- Counter: `"Name-count-" -> counter`
