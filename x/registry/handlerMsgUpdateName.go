@@ -2,6 +2,7 @@ package registry
 
 import (
 	"fmt"
+	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -31,6 +32,17 @@ func handleMsgUpdateName(ctx sdk.Context, k keeper.Keeper, msg *types.MsgUpdateN
 	}
 
 	k.SetName(ctx, name)
+
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			types.EventTypeUpdateName,
+			sdk.NewAttribute(types.AttributeKeyOwner, msg.Creator),
+			sdk.NewAttribute(types.AttributeKeyNewOwner, msg.Owner),
+			sdk.NewAttribute(types.AttributeKeyName, msg.Name),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Price.String()),
+			sdk.NewAttribute(types.AttributeKeyOnSale, strconv.FormatBool(msg.Onsale)),
+		),
+	})
 
 	return &sdk.Result{Events: ctx.EventManager().ABCIEvents()}, nil
 }

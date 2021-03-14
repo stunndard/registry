@@ -1,6 +1,8 @@
 package registry
 
 import (
+	"strconv"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stunndard/registry/x/registry/keeper"
@@ -47,7 +49,10 @@ func handleMsgBuyName(ctx sdk.Context, k keeper.Keeper, msg *types.MsgBuyName) (
 			return nil, err
 		}
 
-		// set name owner
+		// get the current owner
+		seller := name.Owner
+
+		// update the name owner
 		name.Owner = msg.Creator
 
 		// set name price
@@ -58,6 +63,17 @@ func handleMsgBuyName(ctx sdk.Context, k keeper.Keeper, msg *types.MsgBuyName) (
 
 		k.SetName(ctx, name)
 
+		ctx.EventManager().EmitEvents(sdk.Events{
+			sdk.NewEvent(
+				types.EventTypeBuyName,
+				sdk.NewAttribute(types.AttributeKeyBuyer, msg.Creator),
+				sdk.NewAttribute(types.AttributeKeySeller, seller),
+				sdk.NewAttribute(types.AttributeKeyName, msg.Name),
+				sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Bid.String()),
+				sdk.NewAttribute(types.AttributeKeyOnSale, strconv.FormatBool(msg.Onsale)),
+			),
+		})
+
 	} else {
 		// this name is not registered
 		// TODO: amount can be calculated dynamically from the total number of names registered for the N latest blocks
@@ -67,6 +83,16 @@ func handleMsgBuyName(ctx sdk.Context, k keeper.Keeper, msg *types.MsgBuyName) (
 		}
 
 		k.CreateName(ctx, *msg)
+
+		ctx.EventManager().EmitEvents(sdk.Events{
+			sdk.NewEvent(
+				types.EventTypeUpdateName,
+				sdk.NewAttribute(types.AttributeKeyOwner, msg.Creator),
+				sdk.NewAttribute(types.AttributeKeyName, msg.Name),
+				sdk.NewAttribute(sdk.AttributeKeyAmount, amount.String()),
+				sdk.NewAttribute(types.AttributeKeyOnSale, strconv.FormatBool(msg.Onsale)),
+			),
+		})
 	}
 
 	return &sdk.Result{Events: ctx.EventManager().ABCIEvents()}, nil

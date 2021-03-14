@@ -31,4 +31,5 @@ In this system, anyone can register a name, buy it from another owner or sell it
 4. **[End-Block ](05_end_block.md)**
 5. **[Hooks](06_hooks.md)**
 6. **[Events](07_events.md)**
+    - [Handlers](07_events.md#handlers)
 7. **[Parameters](08_params.md)**

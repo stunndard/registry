@@ -19,5 +19,13 @@ func handleMsgDeleteName(ctx sdk.Context, k keeper.Keeper, msg *types.MsgDeleteN
 
 	k.DeleteName(ctx, msg.Name)
 
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			types.EventTypeDeleteName,
+			sdk.NewAttribute(types.AttributeKeyOwner, msg.Creator),
+			sdk.NewAttribute(types.AttributeKeyName, msg.Name),
+		),
+	})
+
 	return &sdk.Result{Events: ctx.EventManager().ABCIEvents()}, nil
 }
