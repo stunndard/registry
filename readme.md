@@ -124,6 +124,7 @@ Let's check:
 ```
 $ registryd query registry list-name
 
+Name: []
 $
 ```
 
