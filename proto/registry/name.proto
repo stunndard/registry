@@ -1,0 +1,39 @@
+syntax = "proto3";
+package stunndard.registry.registry;
+
+option go_package = "github.com/stunndard/registry/x/registry/types";
+
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+message Name {
+  string creator = 1;
+  string id = 2;
+  string name = 3; 
+  string owner = 4; 
+  repeated cosmos.base.v1beta1.Coin price = 5
+    [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];
+  bool onsale = 6;
+}
+
+message MsgBuyName {
+  string creator = 1;
+  string name = 2; 
+  repeated cosmos.base.v1beta1.Coin bid = 3
+    [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];
+  bool onsale = 4; 
+}
+
+message MsgUpdateName {
+  string creator = 1;
+  string name = 2;
+  string owner = 3; 
+  repeated cosmos.base.v1beta1.Coin price = 4
+    [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"];
+  bool onsale = 5; 
+}
+
+message MsgDeleteName {
+  string creator = 1;
+  string name = 2;
+}

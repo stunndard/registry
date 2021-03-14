@@ -330,7 +330,7 @@ func New(
 	app.EvidenceKeeper = *evidenceKeeper
 
 	app.registryKeeper = *registrykeeper.NewKeeper(
-		appCodec, keys[registrytypes.StoreKey], keys[registrytypes.MemStoreKey],
+		app.BankKeeper, appCodec, keys[registrytypes.StoreKey], keys[registrytypes.MemStoreKey],
 	)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition

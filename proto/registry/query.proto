@@ -4,12 +4,36 @@ package stunndard.registry.registry;
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 // this line is used by starport scaffolding # 1
+import "registry/name.proto";
 
 option go_package = "github.com/stunndard/registry/x/registry/types";
 
 // Query defines the gRPC querier service.
 service Query {
     // this line is used by starport scaffolding # 2
+	rpc Name(QueryGetNameRequest) returns (QueryGetNameResponse) {
+		option (google.api.http).get = "/stunndard/registry/registry/name/{id}";
+	}
+	rpc NameAll(QueryAllNameRequest) returns (QueryAllNameResponse) {
+		option (google.api.http).get = "/stunndard/registry/registry/name";
+	}
+
 }
 
 // this line is used by starport scaffolding # 3
+message QueryGetNameRequest {
+	string id = 1;
+}
+
+message QueryGetNameResponse {
+	Name Name = 1;
+}
+
+message QueryAllNameRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllNameResponse {
+	repeated Name Name = 1;
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
