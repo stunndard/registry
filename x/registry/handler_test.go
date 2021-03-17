@@ -42,6 +42,8 @@ func TestMsgBuyName(t *testing.T) {
 	//app.MountMemoryStores(memKeys)
 
 	// TODO initialize keeper properly
+	// so the keeper KVStore is initialized as well
+	// currently it is nil
 	rk := keeper.NewKeeper(
 		app.BankKeeper,
 		app.AppCodec(),
@@ -70,7 +72,8 @@ func TestMsgBuyName(t *testing.T) {
 				}
 				return store.(types.KVStore)
 			}
-			There should be some way to initialize a store for a non standard keeper, such as "registry"
+			There should be some way to initialize a KVStore for a non standard keeper, such as "registry"
+			I couldn't figure it out
 	*/
 	res, err := handler(ctx, &registrytypes.MsgBuyName{
 		Creator: addr,
