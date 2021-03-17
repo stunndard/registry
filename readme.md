@@ -131,6 +131,13 @@ $
 There's no more "myname" registered.
 It can bre registered again by anyone else.
 
+## Improvements
+
+Tests need to be fixed, link to the problem:
+
+https://github.com/stunndard/registry/blob/87a1eb28444d9a59d886f050cccea42e1aa2873e/x/registry/handler_test.go#L44
+
+
 
 ## Learn more
 
