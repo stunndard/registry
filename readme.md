@@ -18,6 +18,14 @@ Your blockchain in development can be configured with `config.yml`. To learn mor
 
 To launch your blockchain live on mutliple nodes use `starport network` commands. Learn more about [Starport Network](https://github.com/tendermint/spn).
 
+## Purpose
+
+`registry` module for cosmos-sdk is an example module to implement a registry of blockchain names.
+Anyone can buy or sell registered names, as well as update them and delete.
+In this example there's no extra data is associated with a registered name, just the name itself.
+But it can easily extended to include any data: like IP addresses, registrant information, etc
+ 
+
 ## Let's play
 
 Alice wants to buy a new name "myname".
