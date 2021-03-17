@@ -37,7 +37,7 @@ func TestMsgBuyName(t *testing.T) {
 	//memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
 
 	// initialize stores
-  //app.MountKVStores(keys)
+	//app.MountKVStores(keys)
 	//app.MountTransientStores(tkeys)
 	//app.MountMemoryStores(memKeys)
 
@@ -54,31 +54,29 @@ func TestMsgBuyName(t *testing.T) {
 	// ctx := sdk.NewContext(nil, tmproto.Header{}, false, nil)
 	ctx := app.NewContext(false, tmproto.Header{})
 
-
 	pks := simapp.CreateTestPubKeys(1)
 	addr := sdk.AccAddress(pks[0].Address()).String()
 
 	/*
-		below currently panics when getting KVStore for the registry keeper in store/cachemulti/store.go:
+			below currently panics when getting KVStore for the registry keeper in store/cachemulti/store.go:
 
-	// GetKVStore returns an underlying KVStore by key.
-	func (cms Store) GetKVStore(key types.StoreKey) types.KVStore {
---->		store := cms.stores[key]
-cms.stores["registry"] is nil.
+		// GetKVStore returns an underlying KVStore by key.
+		func (cms Store) GetKVStore(key types.StoreKey) types.KVStore {
+	--->		store := cms.stores[key]
+	cms.stores["registry"] is nil.
 
-		if key == nil {
-			panic(fmt.Sprintf("kv store with key %v has not been registered in stores", key))
+			if key == nil {
+				panic(fmt.Sprintf("kv store with key %v has not been registered in stores", key))
+			}
+			return store.(types.KVStore)
 		}
-		return store.(types.KVStore)
-	}
-	There should be some way to initialize a store for a non standard keeper, such as "registry"
+		There should be some way to initialize a store for a non standard keeper, such as "registry"
 	*/
 	res, err := handler(ctx, &registrytypes.MsgBuyName{
 		Creator: addr,
 		Name:    "testname",
-		Bid: sdk.Coins{sdk.NewCoin("token", sdk.NewInt(10)),
-		},
-		Onsale: false})
+		Bid:     sdk.Coins{sdk.NewCoin("token", sdk.NewInt(10))},
+		Onsale:  false})
 
 	require.NoError(t, err)
 	require.NotNil(t, res)
@@ -121,4 +119,3 @@ cms.stores["registry"] is nil.
 	*/
 
 }
-
